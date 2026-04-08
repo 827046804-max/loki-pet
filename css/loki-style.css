@@ -1,0 +1,48 @@
+/* Loki 像素猫桌宠样式 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+#catCanvas {
+    position: absolute;
+    cursor: grab;
+    z-index: 1000;
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    font-family: sans-serif;
+}
+
+#menu button {
+    display: block;
+    width: 100%;
+    margin: 2px 0;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#menu button:hover {
+    background-color: #eee;
+}
+
+#menu hr {
+    border: 1px solid #ddd;
+    margin: 5px 0;
+}

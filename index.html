@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Loki - 银色虎斑缅因猫</title>
+    <link rel="stylesheet" href="css/loki-style.css">
+</head>
+<body>
+    <canvas id="catCanvas" width="260" height="220"></canvas>
+
+    <div id="menu">
+        <button onclick="setState('sleeping')">😴 睡觉</button>
+        <button onclick="playYawn()">🥱 打哈欠</button>
+        <hr>
+        <button onclick="setMode('static')">🛑 静态模式 (乖乖待着)</button>
+        <button onclick="setMode('free')">🐾 自由移动 (到处乱跑)</button>
+    </div>
+
+    <script src="js/loki-bundle.js"></script>
+</body>
+</html>
