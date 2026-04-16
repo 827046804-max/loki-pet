@@ -1,5 +1,75 @@
 # Loki 桌宠项目日志
 
+## 2026-04-17 重构完成
+
+### 架构重构
+将单文件拆分为模块化架构：
+- `core/action.py` - 动作数据结构定义
+- `core/registry.py` - 配置加载、资源管理
+- `core/scheduler.py` - 动作调度、状态管理
+- `core/window.py` - 窗口渲染、交互处理
+- `actions.json` - 配置文件（JSON 驱动）
+
+### 新增功能
+- **配置驱动**：动作通过 JSON 配置，无需改代码
+- **动作类型**：支持 `loop`（循环）和 `oneshot`（单次）
+- **空闲触发**：3秒无操作自动随机触发动作
+- **走路移动**：猫可在屏幕上水平走动，边界自动转向
+- **背景透明**：自动检测 GIF 背景色并透明化
+- **菜单交互**：右键菜单切换动作
+- **跳跃动画**：新增跳跃动画（替换旧版本）
+- **玩耍次数**：玩耍动画播放3次后自动停止
+
+### 支持的动作
+| 动作 | 类型 | 触发方式 | 特性 |
+|------|------|----------|------|
+| 静止 | loop | 菜单 | 默认状态 |
+| 玩耍 | oneshot | 菜单/空闲 | 播放3次 |
+| 走路 | loop | 菜单/空闲 | 屏幕移动 |
+| 跳跃 | oneshot | 菜单 | 不可打断 |
+
+### 打包配置
+- 支持 PyInstaller 打包
+- `loki-pet.spec` 配置文件已创建
+- 支持 macOS .app 和 Windows .exe
+
+### 文件结构
+```
+loki-pet/
+├── core/
+│   ├── __init__.py
+│   ├── action.py
+│   ├── registry.py
+│   ├── scheduler.py
+│   └── window.py
+├── images/
+│   ├── loki_stay.gif
+│   ├── loki_play.gif
+│   ├── loki_walk.gif
+│   └── loki_jump.gif
+├── actions.json
+├── loki_gif.py
+├── loki-pet.spec
+└── CHANGELOG.md
+```
+
+### 启动命令
+```bash
+cd /Users/xair/loki-pet
+python3 loki_gif.py
+```
+
+### 打包命令
+```bash
+# macOS
+pyinstaller loki-pet.spec
+
+# Windows（需在 Windows 上执行）
+pyinstaller loki-pet.spec
+```
+
+---
+
 ## 2026-04-13 工作记录
 
 ### 项目背景

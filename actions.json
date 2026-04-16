@@ -1,0 +1,50 @@
+{
+  "default": "stay",
+  "idle_interval": 3.0,
+  "actions": {
+    "stay": {
+      "path": "images/loki_stay.gif",
+      "label": "静止",
+      "kind": "loop",
+      "triggers": ["menu"],
+      "menu_order": 1,
+      "interruptible": true,
+      "cooldown": 0
+    },
+    "play": {
+      "path": "images/loki_play.gif",
+      "label": "玩耍",
+      "kind": "oneshot",
+      "next": "stay",
+      "max_loops": 3,
+      "triggers": ["menu", "idle"],
+      "menu_order": 2,
+      "weight": 30,
+      "cooldown": 5,
+      "interruptible": true
+    },
+    "walk": {
+      "path": "images/loki_walk.gif",
+      "label": "走路",
+      "kind": "loop",
+      "triggers": ["menu", "idle"],
+      "menu_order": 3,
+      "weight": 40,
+      "cooldown": 3,
+      "interruptible": true,
+      "duration": 8,
+      "move_speed": 2
+    },
+    "jump": {
+      "path": "images/loki_jump.gif",
+      "label": "跳跃",
+      "kind": "oneshot",
+      "next": "stay",
+      "max_loops": 1,
+      "triggers": ["menu"],
+      "menu_order": 4,
+      "interruptible": false,
+      "cooldown": 2
+    }
+  }
+}
