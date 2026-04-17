@@ -19,7 +19,7 @@ class PetWindow(QWidget):
         self.registry = registry
         self.scheduler = scheduler
 
-        # 窗口属性 - 完全无边框透明
+        # 窗口属性 - 完全无边框透明 + 置顶
         self.setWindowFlags(
             Qt.FramelessWindowHint |
             Qt.WindowStaysOnTopHint |
@@ -29,6 +29,7 @@ class PetWindow(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAttribute(Qt.WA_NoSystemBackground)
         self.setAttribute(Qt.WA_OpaquePaintEvent, False)
+        self.setAttribute(Qt.WA_ShowWithoutActivating)
         self.setStyleSheet("background: transparent;")
 
         # 当前 QMovie
