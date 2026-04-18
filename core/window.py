@@ -2,6 +2,8 @@
 桌宠窗口：播放 + 渲染 + 交互
 """
 
+import random
+
 from PyQt5.QtWidgets import QWidget, QMenu, QApplication
 from PyQt5.QtGui import QPainter, QCursor, QColor, QTransform
 from PyQt5.QtCore import Qt, QTimer
@@ -52,6 +54,10 @@ class PetWindow(QWidget):
 
         # 走路移动
         self._move_direction = 1  # 1=右, -1=左
+        self._move_timer = 0  # 随机行为计时器
+        self._move_pause = False  # 是否暂停
+        self._current_speed = 2  # 当前速度
+        self._move_target_y = 0  # 目标 Y 位置（初始化后设置）
 
         # 加载资源并播放默认动作
         self.registry.load_movies()
@@ -168,12 +174,43 @@ class PetWindow(QWidget):
             self._play("stay")
 
     def _move_window(self, speed: int):
-        """移动窗口（走路时）"""
+        """自然移动窗口"""
         screen = QApplication.primaryScreen().geometry()
         pos = self.pos()
-        new_x = pos.x() + speed * self._move_direction
 
-        # 到达边界时转向
+        # 初始化目标 Y 位置
+        if self._move_target_y == 0:
+            self._move_target_y = pos.y()
+
+        # 随机停顿
+        if self._move_pause:
+            self._move_timer -= 1
+            if self._move_timer <= 0:
+                self._move_pause = False
+            return
+
+        # 随机改变行为
+        self._move_timer += 1
+        if self._move_timer > random.randint(30, 100):  # 约0.5-2秒
+            self._move_timer = 0
+
+            # 随机停顿（20%概率）
+            if random.random() < 0.2:
+                self._move_pause = True
+                self._move_timer = random.randint(30, 60)  # 停顿0.5-1秒
+                return
+
+            # 随机改变方向（30%概率）
+            if random.random() < 0.3:
+                self._move_direction *= -1
+
+            # 随机改变速度
+            self._current_speed = random.randint(1, 3)
+
+        # 水平移动
+        new_x = pos.x() + self._current_speed * self._move_direction
+
+        # 边界处理
         if new_x <= 0:
             new_x = 0
             self._move_direction = 1
@@ -181,7 +218,18 @@ class PetWindow(QWidget):
             new_x = screen.width() - self.width()
             self._move_direction = -1
 
-        self.move(new_x, pos.y())
+        # 垂直移动（小范围）
+        if random.random() < 0.02:  # 2%概率改变Y目标
+            min_y = screen.height() - self.height() - 100
+            max_y = screen.height() - self.height() - 50
+            if min_y < max_y:
+                self._move_target_y = random.randint(min_y, max_y)
+
+        new_y = pos.y()
+        if abs(pos.y() - self._move_target_y) > 2:
+            new_y += 1 if pos.y() < self._move_target_y else -1
+
+        self.move(new_x, new_y)
 
     def _on_idle(self):
         """空闲定时器回调"""
